@@ -1,7 +1,7 @@
 package by.intexsoft.vihrova.restfulwebservice.exception;
 
 import by.intexsoft.vihrova.restfulwebservice.postpackage.PostNotFoundException;
-import by.intexsoft.vihrova.restfulwebservice.userpackage.UserNotFoundException;
+import by.intexsoft.vihrova.restfulwebservice.user.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

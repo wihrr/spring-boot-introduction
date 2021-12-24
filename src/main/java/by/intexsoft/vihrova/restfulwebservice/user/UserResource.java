@@ -1,10 +1,9 @@
-package by.intexsoft.vihrova.restfulwebservice.userpackage;
+package by.intexsoft.vihrova.restfulwebservice.user;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilderDsl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,12 +34,14 @@ public class UserResource {
         WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).findAll());
 
         model.add(linkToUsers.withRel("all-users"));
+
+
         return model;
     }
 
     @PostMapping("/users")
     public ResponseEntity<Object> create(@Valid @RequestBody User user){
-         User newUser = userDaoService.save(user);
+        User newUser = userDaoService.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

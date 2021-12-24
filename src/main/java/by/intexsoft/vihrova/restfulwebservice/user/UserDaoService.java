@@ -1,6 +1,7 @@
-package by.intexsoft.vihrova.restfulwebservice.userpackage;
+package by.intexsoft.vihrova.restfulwebservice.user;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
