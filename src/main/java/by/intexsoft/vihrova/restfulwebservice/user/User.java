@@ -1,13 +1,16 @@
 package by.intexsoft.vihrova.restfulwebservice.user;
 
+import by.intexsoft.vihrova.restfulwebservice.post.Post;
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +28,7 @@ public class User {
 
     @Past
     private Date birthDay;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 }

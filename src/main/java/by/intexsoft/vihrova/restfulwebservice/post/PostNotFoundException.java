@@ -1,4 +1,4 @@
-package by.intexsoft.vihrova.restfulwebservice.postpackage;
+package by.intexsoft.vihrova.restfulwebservice.post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

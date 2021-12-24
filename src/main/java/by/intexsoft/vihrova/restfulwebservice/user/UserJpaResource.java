@@ -1,5 +1,7 @@
 package by.intexsoft.vihrova.restfulwebservice.user;
 
+import by.intexsoft.vihrova.restfulwebservice.post.Post;
+import by.intexsoft.vihrova.restfulwebservice.post.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -21,6 +23,9 @@ public class UserJpaResource {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PostRepository postRepository;
+
     @GetMapping("/jpa/users")
     public List<User> findAll(){
         return userRepository.findAll();
@@ -29,7 +34,7 @@ public class UserJpaResource {
     @GetMapping("/jpa/users/{id}")
     public EntityModel<User> findById(@PathVariable int id) {
         Optional<User> user= userRepository.findById(id);
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             throw new UserNotFoundException("id-" + id);
         }
         EntityModel<User> model = EntityModel.of(user.get());
@@ -60,5 +65,33 @@ public class UserJpaResource {
     @DeleteMapping("/jpa/users/{id}")
     public void deleteById(@PathVariable int id){
         userRepository.deleteById(id);
+    }
+
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> getAllWithPosts (@PathVariable int id){
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()){
+            throw new UserNotFoundException("id-" + id);
+        }
+        return userOptional.get().getPosts();
+    }
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Post post){
+        Optional<User> savedUserOptional = userRepository.findById(id);
+        if(savedUserOptional.isEmpty()){
+            throw new UserNotFoundException("id-" + id);
+        }
+        User user = savedUserOptional.get();
+
+        post.setUser(user);
+
+        postRepository.save(post);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(post.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 }
